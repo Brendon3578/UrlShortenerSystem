@@ -37,6 +37,15 @@ namespace UrlShortenerSystem.Data
                     .IsRequired();
 
                 entity.Property(e => e.Clicks);
+
+                entity.Property(e => e.DeleteToken)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasIndex(e => e.ExpiresAt);
+
+                entity.Property(e => e.ExpiresAt)
+                    .IsRequired(false); // Nullable
             });
         }
     }

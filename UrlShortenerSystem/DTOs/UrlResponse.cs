@@ -1,5 +1,17 @@
 ﻿namespace UrlShortenerSystem.DTOs
 {
-    public record UrlResponseDTO(string Id, string OriginalUrl, string ShortCode,
-        DateTime CreatedAt, int Clicks, string ShortUrl);
+
+    /// <summary>
+    /// DTO para resposta de URL encurtada
+    /// </summary>
+    public record UrlResponseDTO(
+        string Id,
+        string OriginalUrl,
+        string ShortCode,
+        string DeleteToken,
+        DateTime CreatedAt,
+        DateTime? ExpiresAt,
+        int Clicks,
+        string ShortUrl
+    );
 }

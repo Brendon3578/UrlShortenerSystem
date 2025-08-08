@@ -17,5 +17,14 @@
         {
             return $"{request.Scheme}://{request.Host}";
         }
+
+        /// <summary>
+        /// Gera um token de deleção único
+        /// </summary>
+        /// <returns>Token único para deleção</returns>
+        public static string GenerateDeleteToken()
+        {
+            return Guid.NewGuid().ToString("N"); // Remove hífens para token mais limpo
+        }
     }
 }
