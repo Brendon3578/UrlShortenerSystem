@@ -12,5 +12,10 @@
             return new string(Enumerable.Repeat(chars, 6)
                 .Select(s => s[random.Next(s.Length)]).ToArray());
         }
+
+        public static string GenerateBaseUrl(HttpRequest request)
+        {
+            return $"{request.Scheme}://{request.Host}";
+        }
     }
 }

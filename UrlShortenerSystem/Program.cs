@@ -87,7 +87,7 @@ app.MapPost("/urls", async (CreateURLRequestDTO request, UrlShortenerContext con
     context.ShortUrls.Add(shortUrl);
     await context.SaveChangesAsync();
 
-    var baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}";
+    var baseUrl = GenerateBaseUrl(httpContext.Request);
 
     var shortUrlResponse = new UrlResponseDTO(
         shortUrl.Id.ToString(),
@@ -132,7 +132,7 @@ app.MapGet("/urls", async (UrlShortenerContext context, HttpContext httpContext)
         .OrderByDescending(u => u.CreatedAt)
         .ToListAsync();
 
-    var baseUrl = $"{httpContext.Request.Scheme}://{httpContext.Request.Host}";
+    var baseUrl = GenerateBaseUrl(httpContext.Request);
 
     var urlResponses = urls.Select(u => new UrlResponseDTO(
         u.Id.ToString(),
@@ -150,9 +150,9 @@ app.MapGet("/urls", async (UrlShortenerContext context, HttpContext httpContext)
 .WithDescription("Returns list with all short URLs registered")
 .WithTags("URLs");
 
-app.MapDelete("/urls/{code}", async (string code, UrlShortenerContext context) =>
+app.MapDelete("/urls/{shortCode}", async (string shortCode, UrlShortenerContext context) =>
 {
-    var shortUrl = await context.ShortUrls.FindAsync(code);
+    var shortUrl = await context.ShortUrls.FirstOrDefaultAsync(u => u.ShortCode == shortCode);
 
     if (shortUrl == null)
         return Results.NotFound(new { message = "URL not found." });
